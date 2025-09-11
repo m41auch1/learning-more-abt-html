@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dev.terminal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+      font-family: "Fira Code", monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      padding: 40px;
+      margin: 0;
+      min-height: 100vh;
+      color: #00ff41;
+    }
+
+    .window {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ff41;
+      width: 900px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .title-bar {
+      background: linear-gradient(90deg, #003300 0%, #006600 100%);
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      border-bottom: 2px solid #00ff41;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title-bar .controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #00ff41;
+    }
+
+    .minimize { background: #ffff00; }
+    .maximize { background: #00ff41; }
+    .close { background: #ff0000; }
+
+    .title-bar span {
+      color: #00ff41;
+      text-shadow: 0 0 5px #00ff41;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 250px 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(0, 20, 0, 0.8);
+      border: 1px solid #00aa00;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
+    }
+
+    .card h2 {
+      font-size: 16px;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+      color: #00ff41;
+      border-bottom: 1px solid #00aa00;
+      padding-bottom: 6px;
+      text-shadow: 0 0 5px #00ff41;
+    }
+
+    .profile-pic {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 2px solid #00ff41;
+    }
+
+    .profile-pic::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(0, 255, 65, 0.1) 50%, 
+        transparent 70%);
+      animation: scan 3s linear infinite;
+      z-index: 2;
+    }
+
+    @keyframes scan {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      filter: sepia(100%) hue-rotate(90deg) saturate(150%);
+    }
+
+    .ascii-art {
+      font-family: monospace;
+      font-size: 10px;
+      line-height: 1;
+      color: #00ff41;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    a {
+      color: #00ccff;
+      text-decoration: none;
+      text-shadow: 0 0 3px #00ccff;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-shadow: 0 0 8px #00ccff;
+    }
+
+    .highlight {
+      color: #ff6b35;
+      font-weight: bold;
+      text-shadow: 0 0 5px #ff6b35;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tech-tag {
+      background: rgba(0, 255, 65, 0.2);
+      color: #00ff41;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      border: 1px solid #00aa00;
+    }
+
+    /* Terminal específico */
+    .terminal {
+      background: #000;
+      color: #00ff41;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: "Fira Code", monospace;
+      border: 1px solid #00aa00;
+    }
+
+    .terminal-header {
+      color: #666;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .prompt {
+      color: #00ccff;
+    }
+
+    /* Animações minimalistas */
+    .blink {
+      animation: blink 1s linear infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+
+    .side-by-side {
+      display: flex;
+      gap: 25px;
+      width: 900px;
+    }
+
+    .terminal-window, .code-window {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ff41;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+    }
+
+    .code-editor {
+      background: #1a1a1a;
+      color: #f8f8f2;
+      padding: 15px;
+      font-family: "Fira Code", monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      overflow-x: auto;
+    }
+
+    .code-editor .keyword { color: #ff79c6; }
+    .code-editor .string { color: #f1fa8c; }
+    .code-editor .comment { color: #6272a4; }
+    .code-editor .function { color: #50fa7b; }
+    .code-editor .number { color: #bd93f9; }
+
+    /* Project cards */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .project-card {
+      background: rgba(0, 40, 0, 0.6);
+      border: 1px solid #00aa00;
+      border-radius: 6px;
+      padding: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+      border-color: #00ff41;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .project-title {
+      color: #00ff41;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .project-desc {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-box {
+      background: rgba(0, 255, 65, 0.1);
+      border: 1px solid #00aa00;
+      border-radius: 4px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ff41;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="matrix-bg">
+    <canvas id="matrix"></canvas>
+  </div>
+
+  <!-- Janela principal -->
+  <div class="window">
+    <div class="title-bar">
+      <span>$ whoami.exe</span>
+      <div class="controls">
+        <div class="control-btn minimize"></div>
+        <div class="control-btn maximize"></div>
+        <div class="control-btn close"></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Foto de perfil com efeito -->
+      <div class="profile-pic">
+        <div class="ascii-art">
+          ┌─────────────────┐<br>
+          │ SYSTEM ONLINE   │<br>
+          │ STATUS: ACTIVE  │<br>
+          └─────────────────┘
+        </div>
+      </div>
+
+      <!-- Coluna da esquerda -->
+      <div>
+        <div class="card">
+          <h2>$ cat /etc/passwd</h2>
+          <p><span class="highlight">Nome:</span> Dev Geek</p>
+          <p><span class="highlight">Idade:</span> 25 anos</p>
+          <p><span class="highlight">Localização:</span> Matrix, Servidor #001</p>
+          <p><span class="highlight">Status:</span> <span class="blink">ONLINE</span></p>
+          <p><span class="highlight">Café:</span> ∞ xícaras/dia</p>
+        </div>
+
+        <div class="card">
+          <h2>$ ls /skills</h2>
+          <div class="tech-stack">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Linux</span>
+            <span class="tech-tag">Git</span>
+            <span class="tech-tag">AWS</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>$ uptime</h2>
+          <div class="stats-container">
+            <div class="stat-box">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Anos Codando</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number">42</span>
+              <span class="stat-label">Projetos</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number">∞</span>
+              <span class="stat-label">Bugs Fixed</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number">404</span>
+              <span class="stat-label">Vida Social</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna da direita -->
+      <div>
+        <div class="card">
+          <h2>$ echo $ABOUT_ME</h2>
+          <p>Desenvolvedor apaixonado por tecnologia, café e resolver problemas complexos com código elegante. Acredito que todo bug é apenas uma feature não documentada.</p>
+          <p class="highlight">while(alive) { eat(); sleep(); code(); repeat(); }</p>
+        </div>
+
+        <div class="card">
+          <h2>$ ps aux | grep interests</h2>
+          <p>🔧 <strong>Hardware Hacking</strong> - Montando PCs desde os 12 anos</p>
+          <p>🎮 <strong>Gaming</strong> - Jogos indie e retro favorites</p>
+          <p>📚 <strong>Sci-Fi</strong> - Isaac Asimov & Philip K. Dick</p>
+          <p>🎵 <strong>Synthwave</strong> - Cyberpunk vibes 24/7</p>
+          <p>🤖 <strong>AI/ML</strong> - Explorando o futuro hoje</p>
+        </div>
+
+        <div class="card">
+          <h2>$ fortune</h2>
+          <p class="terminal">
+            <div class="terminal-header">fortune.txt</div>
+            <span class="prompt">root@life:~$</span> "There are only 10 types of people in the world: those who understand binary and those who don't."<br><br>
+            <span class="prompt">root@life:~$</span> <span class="blink">_</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Janela de Projetos -->
+  <div class="window">
+    <div class="title-bar">
+      <span>$ ls /projects</span>
+      <div class="controls">
+        <div class="control-btn minimize"></div>
+        <div class="control-btn maximize"></div>
+        <div class="control-btn close"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Recent Projects</h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-title">🤖 ChatBot AI</div>
+            <div class="project-desc">Bot conversacional usando NLP e machine learning</div>
+          </div>
+          <div class="project-card">
+            <div class="project-title">🌐 Web Scraper</div>
+            <div class="project-desc">Sistema de coleta de dados em larga escala</div>
+          </div>
+          <div class="project-card">
+            <div class="project-title">🔐 CryptoWallet</div>
+            <div class="project-desc">Carteira digital com criptografia avançada</div>
+          </div>
+          <div class="project-card">
+            <div class="project-title">📊 Dashboard Analytics</div>
+            <div class="project-desc">Visualização de dados em tempo real</div>
+          </div>
+          <div class="project-card">
+            <div class="project-title">🎮 Retro Game Engine</div>
+            <div class="project-desc">Engine 2D para jogos estilo 8-bit</div>
+          </div>
+          <div class="project-card">
+            <div class="project-title">🔊 Music Visualizer</div>
+            <div class="project-desc">Visualizador de áudio com WebGL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal + Código lado a lado -->
+  <div class="side-by-side">
+    <!-- Terminal -->
+    <div class="terminal-window">
+      <div class="title-bar">
+        <span>$ terminal.sh</span>
+        <div class="controls">
+          <div class="control-btn minimize"></div>
+          <div class="control-btn maximize"></div>
+          <div class="control-btn close"></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="card terminal" style="grid-column: 1 / -1;">
+          <div class="terminal-header">Last login: Thu Sep 11 14:30:15 on ttys001</div>
+          <p><span class="prompt">dev@geek:~$</span> neofetch</p>
+          <p style="color: #00ff41;">
+            ╭─────────────────────╮<br>
+            │ OS: Arch Linux      │<br>
+            │ Kernel: 6.1.0       │<br>
+            │ Shell: zsh          │<br>
+            │ Editor: Neovim      │<br>
+            │ Terminal: Alacritty │<br>
+            │ WM: i3              │<br>
+            ╰─────────────────────╯
+          </p>
+          <p><span class="prompt">dev@geek:~$</span> cd /current_mood</p>
+          <p><span class="prompt">dev@geek:~$</span> cat status.txt</p>
+          <p style="color: #f1fa8c;">"Debugging is like being the detective in a crime movie where you are also the murderer."</p>
+          <p><span class="prompt">dev@geek:~$</span> <span class="blink">_</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor de código -->
+    <div class="code-window">
+      <div class="title-bar">
+        <span>$ vim main.py</span>
+        <div class="controls">
+          <div class="control-btn minimize"></div>
+          <div class="control-btn maximize"></div>
+          <div class="control-btn close"></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="code-editor" style="grid-column: 1 / -1;">
+<span class="comment">#!/usr/bin/env python3</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">class</span> <span class="function">Developer</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self):
+        self.name = <span class="string">"Geek Dev"</span>
+        self.skills = [<span class="string">"Python"</span>, <span class="string">"JS"</span>, <span class="string">"Linux"</span>]
+        self.coffee_level = <span class="number">100</span>
+        self.bugs_fixed = <span class="number">∞</span>
+    
+    <span class="keyword">def</span> <span class="function">work</span>(self):
+        <span class="keyword">while</span> self.coffee_level > <span class="number">0</span>:
+            self.code()
+            self.debug()
+            self.coffee_level -= <span class="number">10</span>
+        
+        self.refill_coffee()
+        <span class="keyword">return</span> <span class="string">"Mission Accomplished"</span>
+    
+    <span class="keyword">def</span> <span class="function">life_motto</span>(self):
+        <span class="keyword">return</span> <span class="string">"Code, Debug, Repeat"</span>
+
+<span class="comment"># Instantiate the legend</span>
+me = Developer()
+<span class="function">print</span>(me.work())
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Matrix rain effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const charArray = chars.split('');
+
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00ff41';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = charArray[Math.floor(Math.random() * charArray.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 50);
+
+    // Resize canvas on window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
