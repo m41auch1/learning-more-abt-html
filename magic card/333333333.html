@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard ID - Holana Magic School</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #2c1810;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Press Start 2P', monospace;
+            padding: 20px;
+        }
+        
+        .wizard-card {
+            width: 700px;
+            height: 500px;
+            background: #f4e4a6;
+            border: 8px solid #8b4513;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+            animation: float 4s ease-in-out infinite;
+            transition: transform 0.4s ease;
+        }
+
+        .wizard-card:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                top: 0px;
+            }
+            50% {
+                top: -12px;
+            }
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #8b4513;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .corner-decoration.top-left {
+            top: -4px;
+            left: -4px;
+            transform: rotate(-45deg);
+        }
+        
+        .corner-decoration.top-right {
+            top: -4px;
+            right: -4px;
+            transform: rotate(45deg);
+        }
+        
+        .corner-decoration.bottom-left {
+            bottom: -4px;
+            left: -4px;
+            transform: rotate(-135deg);
+        }
+        
+        .corner-decoration.bottom-right {
+            bottom: -4px;
+            right: -4px;
+            transform: rotate(135deg);
+        }
+        
+        .header {
+            background: #8b4513;
+            color: #f4e4a6;
+            text-align: center;
+            padding: 12px;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+        
+        .school-name {
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .main-content {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .photo-section {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #8b4513;
+            background: #fff;
+            position: relative;
+            image-rendering: pixelated;
+        }
+        
+        .info-section {
+            flex: 1;
+            color: #8b4513;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            background: rgba(139, 69, 19, 0.1);
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .apprentice-section {
+            text-align: center;
+            margin: 12px 0;
+            color: #8b4513;
+            font-size: 14px;
+            border-top: 2px dashed #8b4513;
+            border-bottom: 2px dashed #8b4513;
+            padding: 10px;
+        }
+        
+        .stars-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        
+        .star {
+            font-size: 16px;
+            color: #8b4513;
+        }
+        
+        .star.filled {
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .large-stars {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 12px 0;
+        }
+        
+        .large-star {
+            font-size: 22px;
+            color: #8b4513;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 12px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #8b4513;
+        }
+        
+        .seal {
+            width: 36px;
+            height: 36px;
+            background: #ff4444;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .seal::before {
+            content: '❅';
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="wizard-card">
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+        
+        <div class="header">
+            <div>Wizard ID</div>
+            <div class="school-name">Holana Magic School</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="photo-section">
+                <div class="avatar"></div>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-row">
+                    <span>Name</span>
+                    <span>Bruno</span>
+                </div>
+                <div class="info-row">
+                    <span>Birthday</span>
+                    <span>09/01</span>
+                </div>
+                <div class="info-row">
+                    <span>Star Sign</span>
+                    <span>Bat's Wing</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="apprentice-section">
+            <div>Apprentice Wizard</div>
+            <div class="stars-row">
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star filled">★</span>
+                <span class="star">★</span>
+            </div>
+            <div class="large-stars">
+                <span class="large-star">☆</span>
+                <span class="large-star">☆</span>
+                <span class="large-star">☆</span>
+                <span class="large-star">☆</span>
+                <span class="large-star">☆</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <span>Issued</span>
+            <span>09/01</span>
+            <div class="seal"></div>
+        </div>
+    </div>
+</body>
+</html>
