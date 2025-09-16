@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMER.net - Breaking the GAP since 2025</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(180deg, #001122, #002244, #003366, #004488);
+            color: #00ccff;
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Matrix rain background */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100px;
+            font-size: 12px;
+            color: #0099ff;
+            animation: matrixFall linear infinite;
+            font-family: 'Courier New', monospace;
+        }
+        
+        @keyframes matrixFall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* Grid background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,204,255,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,204,255,0.2) 1px, transparent 1px);
+            background-size: 16px 16px;
+            z-index: -1;
+            animation: gridPulse 4s ease-in-out infinite alternate;
+            image-rendering: pixelated;
+        }
+        
+        @keyframes gridPulse {
+            0% { opacity: 0.1; }
+            100% { opacity: 0.3; }
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, #00aaff, #0088cc, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: colorShift 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(45deg); }
+        }
+        
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px #00ccff, 0 0 40px #0088cc;
+            animation: glitch 3s ease-in-out infinite;
+            image-rendering: pixelated;
+        }
+        
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-2px); }
+            40% { transform: translateX(2px); }
+            60% { transform: translateX(-1px); }
+            80% { transform: translateX(1px); }
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            margin-top: 10px;
+            animation: typewriter 4s steps(40, end) infinite;
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0,30,60,0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #00ccff;
+            margin: 20px;
+            border-radius: 10px;
+        }
+        
+        .nav-item {
+            color: #00ccff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            image-rendering: pixelated;
+        }
+        
+        .nav-item:hover {
+            border-color: #00ccff;
+            box-shadow: 0 0 20px #00ccff;
+            transform: scale(1.1);
+        }
+        
+        .nav-item:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,204,255,0.4), transparent);
+            animation: shine 0.5s ease-in-out;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Main content */
+        main {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .sidebar, .content, .right-panel {
+            background: rgba(0,20,40,0.9);
+            border: 1px solid #00ccff;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            image-rendering: pixelated;
+        }
+        
+        .sidebar::before, .content::before, .right-panel::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #0066cc, #0099ff, #00ccff);
+            border-radius: 12px;
+            z-index: -1;
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes borderGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Sidebar widgets */
+        .widget {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0,40,80,0.4);
+            border: 1px solid #0088cc;
+            border-radius: 5px;
+        }
+        
+        .widget-title {
+            color: #66ddff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Content area */
+        .welcome-box {
+            background: linear-gradient(135deg, #0066cc20, #00ccff20);
+            border: 2px solid #0088cc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .welcome-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: #00aaff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        /* Visitor counter */
+        .visitor-counter {
+            background: #002244;
+            color: #00ccff;
+            padding: 10px;
+            border: 1px solid #00ccff;
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .counter-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #66ddff;
+            animation: countUp 0.5s ease-in-out;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Gaming section */
+        .game-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .game-item {
+            background: rgba(0,30,60,0.6);
+            border: 1px solid #00ccff;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            image-rendering: pixelated;
+        }
+        
+        .game-item:hover {
+            transform: scale(1.05) rotateY(10deg);
+            box-shadow: 0 10px 20px rgba(0,204,255,0.3);
+            border-color: #0088cc;
+        }
+        
+        /* Updates panel */
+        .updates-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .update-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(0,40,80,0.3);
+            border-left: 3px solid #00ccff;
+            border-radius: 0 5px 5px 0;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .date {
+            color: #66ddff;
+            font-size: 0.8rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0,20,40,0.9);
+            border-top: 1px solid #00ccff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #001122;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #00ccff;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0088cc;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+        
+        /* Particle system */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00ccff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 4s linear infinite;
+            image-rendering: pixelated;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-rain" id="matrixRain"></div>
+    <div class="grid-bg"></div>
+    
+    <header>
+        <h1 class="logo">GAMER.net</h1>
+        <p class="tagline">...from アイドル to IDOL! Breaking the GAP since 2025...</p>
+    </header>
+    
+    <nav>
+        <a href="#" class="nav-item">→ home</a>
+        <a href="#" class="nav-item">→ about</a>
+        <a href="#" class="nav-item">→ links</a>
+        <a href="#" class="nav-item">→ blog</a>
+        <a href="#" class="nav-item">→ gamelog</a>
+        <a href="#" class="nav-item">→ gamecolle</a>
+    </nav>
+    
+    <main>
+        <aside class="sidebar">
+            <div class="widget">
+                <div class="widget-title">★ NAVIGATION</div>
+                <div>→ home<br>→ about<br>→ links<br>→ blog<br>→ gamelog<br>→ gamecolle</div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-title">★ STATS</div>
+                <div>Online: <span style="color: #66ddff;">1337</span><br>
+                Today: <span style="color: #66ddff;">9001</span><br>
+                Total: <span style="color: #66ddff;">∞</span></div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-title">★ FEATURED</div>
+                <div style="border: 1px solid #0088cc; padding: 10px; text-align: center; margin-top: 10px;">
+                    <div style="color: #00aaff;">◆ NEW GAME ◆</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">Cyberpunk Adventure</div>
+                </div>: center; margin-top: 10px;">
+                    <div style="color: #ff00ff;">◆ NEW GAME ◆</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">Cyberpunk Adventure</div>
+                </div>
+            </div>
+        </aside>
+        
+        <section class="content">
+            <div class="welcome-box">
+                <h2 class="welcome-title">Welcome to the "GAMER" world</h2>
+                <p>Hi! This is <strong style="color: #ff00ff;">GAMER.net</strong>'s personal webspace.</p>
+                <br>
+                <p>I hope that you can have a good time at <strong style="color: #00ffff;">GAMER.net</strong>; here you will mostly find cool (real, good) videogames talks and personal ramblings by some random dumbass girl! Updated regularly. Don't leave without signing the <strong style="color: #ffff00;">guestbook</strong> first, or I'll get sad.</p>
+                <br>
+                <p>This website is not mobile-friendly, and will never be.</p>
+                <br>
+                <p>And remember, <strong style="color: #ff00ff;">GAMER.net</strong> is a Forever Work in Progress...</p>
+            </div>
+            
+            <div class="visitor-counter">
+                <div>You are Visitor #<span class="counter-number" id="visitorCount">101245</span></div>
+            </div>
+            
+            <div class="game-showcase">
+                <div class="game-item">
+                    <div style="color: #ff00ff;">◆ RETRO ◆</div>
+                    <div>Classic RPGs</div>
+                </div>
+                <div class="game-item">
+                    <div style="color: #00ffff;">◆ INDIE ◆</div>
+                    <div>Hidden Gems</div>
+                </div>
+                <div class="game-item">
+                    <div style="color: #ffff00;">◆ ACTION ◆</div>
+                    <div>Fast Paced</div>
+                </div>
+                <div class="game-item">
+                    <div style="color: #ff0080;">◆ PUZZLE ◆</div>
+                    <div>Brain Teasers</div>
+                </div>
+            </div>
+        </section>
+        
+        <aside class="right-panel">
+            <div class="widget">
+                <div class="widget-title">★ UPDATES</div>
+                <div class="updates-list">
+                    <div class="update-item">
+                        <div class="date">2025/09/16</div>
+                        <div>Added new retro game reviews section</div>
+                    </div>
+                    <div class="update-item">
+                        <div class="date">2025/09/15</div>
+                        <div>Fixed glitchy animations (they're supposed to glitch!)</div>
+                    </div>
+                    <div class="update-item">
+                        <div class="date">2025/09/14</div>
+                        <div>Implemented matrix rain background</div>
+                    </div>
+                    <div class="update-item">
+                        <div class="date">2025/09/13</div>
+                        <div>Enhanced cyberpunk aesthetics</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-title">★ FIND ME!</div>
+                <div style="text-align: center;">
+                    <div style="color: #ff00ff;">♦ gamerforum</div>
+                    <div style="color: #00ffff;">♦ retrogamers.net</div>
+                    <div style="color: #ffff00;">♦ indieunderground</div>
+                    <div style="color: #ff0080;">♦ cybergames.io</div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-title">★ COOL LINKS</div>
+                <div>
+                    <div style="margin: 5px 0;">→ coolmathgames</div>
+                    <div style="margin: 5px 0;">→ newgrounds</div>
+                    <div style="margin: 5px 0;">→ itch.io</div>
+                    <div style="margin: 5px 0;">→ gamedev.net</div>
+                </div>
+            </div>
+        </aside>
+    </main>
+    
+    <footer>
+        <p>★★★★★ Page © GAMER.net - Breaking the GAP since Est. 2025 ★★★★★</p>
+        <p style="font-size: 0.8rem; margin-top: 10px;">Best viewed in 1024x768 • Netscape Navigator compatible</p>
+    </footer>
+
+    <script>
+        // Matrix rain effect
+        function createMatrixRain() {
+            const matrixContainer = document.getElementById('matrixRain');
+            const characters = '█▓▒░▐▌▄▀■□▪▫◆◇○●◯◎⦿⦾⟡⬟⬢⬣⬡⬠⬜⬛◊◈◉◎●○';
+            
+            for (let i = 0; i < 25; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                column.style.animationDelay = Math.random() * 3 + 's';
+                
+                let text = '';
+                for (let j = 0; j < 20; j++) {
+                    text += characters[Math.floor(Math.random() * characters.length)] + '<br>';
+                }
+                column.innerHTML = text;
+                
+                matrixContainer.appendChild(column);
+            }
+        }
+        
+        // Visitor counter animation
+        function animateCounter() {
+            const counter = document.getElementById('visitorCount');
+            let count = 100000;
+            const target = 101245;
+            const increment = Math.ceil((target - count) / 50);
+            
+            const timer = setInterval(() => {
+                count += increment;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = count.toLocaleString();
+            }, 50);
+        }
+        
+        // Particle system
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.backgroundColor = ['#00ccff', '#0099cc', '#66ddff', '#0088cc'][Math.floor(Math.random() * 4)];
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 4000);
+        }
+        
+        // Glitch effect on logo
+        function addGlitchEffect() {
+            const logo = document.querySelector('.logo');
+            const originalText = logo.textContent;
+            
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    logo.textContent = 'G4M3R.n3t';
+                    setTimeout(() => {
+                        logo.textContent = originalText;
+                    }, 100);
+                }
+            }, 2000);
+        }
+        
+        // Random color shifts
+        function randomColorShift() {
+            const elements = document.querySelectorAll('.nav-item, .widget-title');
+            elements.forEach(el => {
+                if (Math.random() < 0.05) {
+                    const colors = ['#00ccff', '#0099cc', '#66ddff', '#0088cc'];
+                    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    setTimeout(() => {
+                        el.style.color = '';
+                    }, 200);
+                }
+            });
+        }
+        
+        // Initialize effects
+        document.addEventListener('DOMContentLoaded', () => {
+            createMatrixRain();
+            setTimeout(animateCounter, 1000);
+            addGlitchEffect();
+            
+            // Create particles periodically
+            setInterval(createParticle, 500);
+            
+            // Random color shifts
+            setInterval(randomColorShift, 1000);
+            
+            // Add click effects to game items
+            document.querySelectorAll('.game-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+        
+        // Mouse trail effect
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.08) {
+                const trail = document.createElement('div');
+                trail.style.position = 'fixed';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                trail.style.width = '2px';
+                trail.style.height = '2px';
+                trail.style.background = '#00ccff';
+                trail.style.borderRadius = '50%';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '1000';
+                trail.style.opacity = '0.8';
+                trail.style.imageRendering = 'pixelated';
+                document.body.appendChild(trail);
+                
+                setTimeout(() => {
+                    trail.style.transition = 'opacity 1.5s ease-out';
+                    trail.style.opacity = '0';
+                    setTimeout(() => trail.remove(), 1500);
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
